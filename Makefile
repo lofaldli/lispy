@@ -1,8 +1,14 @@
 CC     = gcc
-FLAGS  = -std=c99 -Wall
+FLAGS  = -std=c99 -Wall -Iinclude/lispy
 LIBS   = -ledit -lm
-SRC    = main.c mpc.c eval.c parser.c types.c builtin.c prompt.c
-OUT    = lisp
+OUT    = lispy
+SRC    = src/main.c    \
+	 src/mpc.c     \
+	 src/eval.c    \
+	 src/parser.c  \
+	 src/types.c   \
+	 src/builtin.c \
+	 src/prompt.c
 
 default: build
 
@@ -11,10 +17,13 @@ build:
 	@$(CC) $(FLAGS) $(SRC) $(LIBS) -o $(OUT)
 	@echo "done"
 
+install:
+	@mv $(OUT) ~/.local/bin/$(OUT)
+
+uninstall:
+	@rm ~/.local/bin/$(OUT)
+
 .PHONY: clean
 clean:
 	@echo "cleaning up"
 	@rm $(OUT)
-
-run:
-	@./$(OUT)
